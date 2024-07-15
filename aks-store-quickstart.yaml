@@ -224,7 +224,7 @@ spec:
   selector:
     app: store-front
   type: LoadBalancer
-  ---
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -239,26 +239,11 @@ spec:
       labels:
         app: python-front
     spec:
-      nodeSelector:
-        "kubernetes.io/os": linux
       containers:
       - name: python-front
         image: aks-python-app:latest
         ports:
         - containerPort: 8081
-          name: python-front
-        env: 
-        - name: VUE_APP_ORDER_SERVICE_URL
-          value: "http://order-service:3000/"
-        - name: VUE_APP_PRODUCT_SERVICE_URL
-          value: "http://product-service:3002/"
-        resources:
-          requests:
-            cpu: 1m
-            memory: 200Mi
-          limits:
-            cpu: 1000m
-            memory: 512Mi
 ---
 apiVersion: v1
 kind: Service
