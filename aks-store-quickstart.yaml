@@ -241,7 +241,7 @@ spec:
     spec:
       containers:
       - name: python-front
-        image: jeremyvosstest.azurecr.io/aks/aks-python-app:1.5
+        image: jeremyvosstest.azurecr.io/aks/aks-python-app:1.6
         ports:
         - containerPort: 8082
 ---

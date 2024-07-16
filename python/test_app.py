@@ -1,12 +1,12 @@
 from os import environ
-# from opentelemetry import trace
+from opentelemetry import trace
 from flask import Flask, request
 import logging
 import requests
 
-# from azure.monitor.opentelemetry import configure_azure_monitor
+from azure.monitor.opentelemetry import configure_azure_monitor
 
-# configure_azure_monitor()
+configure_azure_monitor()
 
 app = Flask(__name__)
 logger = logging.getLogger(__name__)
@@ -36,7 +36,7 @@ def exception_request():
     except Exception as e:
         logger.exception(e)
     # Use these manual events until events exporter is added.
-    # produce_trace_and_exception_events()
+    produce_trace_and_exception_events()
     requests.get('https://httpstat.us/400')
     return "exceptions", 500
 
@@ -62,19 +62,19 @@ def exception_request():
 #     import wrapt
 #     import zipp
 
-# def produce_trace_and_exception_events():
-#     tracer = trace.get_tracer(__name__)
+def produce_trace_and_exception_events():
+    tracer = trace.get_tracer(__name__)
 
-#     # Trace message events
-#     with tracer.start_as_current_span("hello") as span:
-#         span.add_event("Custom event", {"test": "attributes"})
+    # Trace message events
+    with tracer.start_as_current_span("hello") as span:
+        span.add_event("Custom event", {"test": "attributes"})
     
-#     # Exception events
-#     try:
-#         with tracer.start_as_current_span("hello") as span:
-#             raise Exception("Custom exception message.")
-#     except Exception:
-#         print("Exception raised")
+    # Exception events
+    try:
+        with tracer.start_as_current_span("hello") as span:
+            raise Exception("Custom exception message.")
+    except Exception:
+        print("Exception raised")
 
 if __name__ == "__main__":
     # Test imports of attach dependencies to detect breaking conflicts.

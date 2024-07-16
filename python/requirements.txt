@@ -1,7 +1,7 @@
 flask>=1.0
 werkzeug<3.0.0
 requests~=2.0
-# opentelemetry-api
+opentelemetry-api
 # asgiref
 # certifi
 # charset_normalizer
@@ -21,4 +21,4 @@ requests~=2.0
 # urllib3
 # wrapt
 # zipp
-# azure-monitor-opentelemetry
+azure-monitor-opentelemetry
