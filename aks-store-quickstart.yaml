@@ -241,9 +241,12 @@ spec:
     spec:
       containers:
       - name: python-front
-        image: jeremyvosstest.azurecr.io/aks/aks-python-app:1.6
+        image: jeremyvosstest.azurecr.io/aks/aks-python-app:1.7
         ports:
         - containerPort: 8082
+        env:
+        - name: APPLICATIONINSIGHTS_CONNECTION_STRING
+          value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
 ---
 apiVersion: v1
 kind: Service
