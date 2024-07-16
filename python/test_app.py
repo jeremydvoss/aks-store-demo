@@ -1,7 +1,3 @@
-from azure.monitor.opentelemetry import configure_azure_monitor
-
-configure_azure_monitor()
-
 from os import environ
 from opentelemetry import trace
 from flask import Flask, request
@@ -16,7 +12,7 @@ logger.setLevel(logging.INFO)
 def server_request():
     print(request.args.get("param"))
     logger.info("request page")
-    return "Flask App (Instrumented with distro before imports) 1.8"
+    return "Flask App (Instrumented with auto) 1.9"
 
 @app.route("/dependencies")
 def dependencies_request():

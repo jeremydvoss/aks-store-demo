@@ -21,4 +21,4 @@ opentelemetry-api
 # urllib3
 # wrapt
 # zipp
-azure-monitor-opentelemetry
+# azure-monitor-opentelemetry
