@@ -247,7 +247,6 @@ spec:
         env:
         - name: PYTHONPATH
           value: "/agents/python"
-        env:
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
       - name: python-agent
