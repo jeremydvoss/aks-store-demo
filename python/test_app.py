@@ -16,7 +16,7 @@ logger.setLevel(logging.INFO)
 def server_request():
     print(request.args.get("param"))
     logger.info("request page")
-    return "Flask App (Instrumented with distro before imports)"
+    return "Flask App (Instrumented with distro before imports) 1.8"
 
 @app.route("/dependencies")
 def dependencies_request():
