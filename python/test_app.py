@@ -80,7 +80,7 @@ if __name__ == "__main__":
     # Test imports of attach dependencies to detect breaking conflicts.
     # test_import_attach_dependencies()
     # port = environ["PYTHON_TEST_APP_PORT"]
-    port = "8081"
+    port = "8082"
     print("Server running at port: %s" % port)
     app.run(port=port, host='0.0.0.0')
 

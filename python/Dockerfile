@@ -12,7 +12,7 @@ COPY requirements.txt ./
 # COPY applicationinsights.json* ./
 
 # TODO: Find way to pull this from PYTHON_TEST_APP_PORT
-EXPOSE 8081
+EXPOSE 8082
 
 RUN python3 -m ensurepip && \
     # Change after Flask 3.0.0 is supported: https://github.com/open-telemetry/opentelemetry-python-contrib/issues/1975
