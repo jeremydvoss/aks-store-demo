@@ -1,0 +1,24 @@
+flask>=1.0
+werkzeug<3.0.0
+requests~=2.0
+# opentelemetry-api
+# asgiref
+# certifi
+# charset_normalizer
+# deprecated
+# fixedint
+# idna
+# importlib_metadata
+# isodate
+# msrest
+# oauthlib
+# packaging
+# psutil
+# requests
+# setuptools
+# six
+# typing_extensions
+# urllib3
+# wrapt
+# zipp
+# azure-monitor-opentelemetry
