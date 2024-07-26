@@ -22,7 +22,7 @@ spec:
           mountPath: "/agents/python"
         env:
         - name: PYTHONPATH
-          value: "/agents/python/python"
+          value: "/agents/python"
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
       initContainers:
@@ -30,8 +30,7 @@ spec:
         image: mcr.microsoft.com/applicationinsights/auto-instrumentation/python:1.0.0b15
         command:
         - cp
-        - '-r'
-        - /agents/python/
+        - /agents/python/*
         - /azure-monitor-auto-instrumentation-python
         resources:
           limits:
