@@ -1,5 +1,5 @@
 flask>=1.0
-werkzeug<3.0.0
+werkzeug==3.0.3
 requests~=2.0
 opentelemetry-api
 # asgiref

@@ -1,5 +1,5 @@
 # Change after 3.12 is fixed: https://github.com/open-telemetry/opentelemetry-python/issues/3370
-FROM mcr.microsoft.com/cbl-mariner/base/python:3.9
+FROM mcr.microsoft.com/cbl-mariner/base/python:3.9-cm2.0
 
 # Create app directory
 WORKDIR /usr/src/pythonapp
