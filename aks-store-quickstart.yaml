@@ -25,7 +25,7 @@ spec:
           mountPath: "/agents/python"
         env:
         - name: PYTHONPATH
-          value: "/agents/python/python"
+          value: "/agents/python"
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
       initContainers:
@@ -34,8 +34,8 @@ spec:
         command:
         - cp
         - -r
-        - /agents/python/
-        - /azure-monitor-auto-instrumentation-python
+        - /agents/python/.
+        - /azure-monitor-auto-instrumentation-python/
         resources:
           limits:
             cpu: '2'
@@ -46,9 +46,28 @@ spec:
         volumeMounts:
         - name: azure-monitor-auto-instrumentation-volume-python
           mountPath: /azure-monitor-auto-instrumentation-python
+      # - name: node-agent
+      #   # image: mcr.microsoft.com/applicationinsights/opentelemetry-auto-instrumentation/nodejs:3.1.0
+      #   # command:
+      #   # - cp
+      #   # - -r
+      #   # - /agents/nodejs/.
+      #   # - /azure-monitor-auto-instrumentation-nodejs
+      #   resources:
+      #     limits:
+      #       cpu: '2'
+      #       memory: 1Gi
+      #     requests:
+      #       cpu: 100m
+      #       memory: 128Mi
+      #   volumeMounts:
+      #   - name: azure-monitor-auto-instrumentation-volume-nodejs
+      #     mountPath: /azure-monitor-auto-instrumentation-nodejs
       volumes:
         - name: azure-monitor-auto-instrumentation-volume-python
           emptyDir: {}
+        # - name: azure-monitor-auto-instrumentation-volume-nodejs
+        #   emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
