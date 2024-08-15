@@ -14,8 +14,10 @@ spec:
     spec:
       containers:
       - name: python-front
-        image: jeremyvosstest.azurecr.io/aks/aks-node-and-python-app:1.2
+        image: jeremyvosstest.azurecr.io/aks/aks-node-python-java-app:1.0
         ports:
+        - name: java-port
+          containerPort: 8080
         - name: python-port
           containerPort: 8082
         - name: node-port
@@ -25,11 +27,15 @@ spec:
           mountPath: "/agents/python"
         - name: azure-monitor-auto-instrumentation-volume-nodejs
           mountPath: "/agents/nodejs"
+        - name: azure-monitor-auto-instrumentation-volume-java
+          mountPath: "/agents/java"
         env:
         - name: PYTHONPATH
           value: "/agents/python"
         - name: NODE_OPTIONS
           value: '--require /agents/nodejs/otel/aks.js'
+        - name: _JAVA_OPTIONS
+          value: '-javaagent:/agents/java/applicationinsights-agent-codeless.jar'
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
       initContainers:
@@ -52,6 +58,7 @@ spec:
           mountPath: /azure-monitor-auto-instrumentation-python
       - name: node-agent
         image: mcr.microsoft.com/applicationinsights/auto-instrumentation/nodejs:2.11.4
+        # image: mcr.microsoft.com/applicationinsights/opentelemetry-auto-instrumentation/nodejs:3.2.3
         command:
         - cp
         - -r
@@ -67,10 +74,29 @@ spec:
         volumeMounts:
         - name: azure-monitor-auto-instrumentation-volume-nodejs
           mountPath: /azure-monitor-auto-instrumentation-nodejs
+      - name: java-agent
+        image: mcr.microsoft.com/applicationinsights/auto-instrumentation/java:3.5.2-aks
+        command:
+        - cp
+        - -r
+        - /agents/java/.
+        - /azure-monitor-auto-instrumentation-java
+        resources:
+          limits:
+            cpu: '2'
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - name: azure-monitor-auto-instrumentation-volume-java
+          mountPath: /azure-monitor-auto-instrumentation-java
       volumes:
         - name: azure-monitor-auto-instrumentation-volume-python
           emptyDir: {}
         - name: azure-monitor-auto-instrumentation-volume-nodejs
+          emptyDir: {}
+        - name: azure-monitor-auto-instrumentation-volume-java
           emptyDir: {}
 ---
 apiVersion: v1
@@ -79,6 +105,9 @@ metadata:
   name: python-front
 spec:
   ports:
+  - name: java-port
+    port: 83
+    targetPort: 8080
   - name: python-port
     port: 82
     targetPort: 8082
@@ -88,38 +117,3 @@ spec:
   selector:
     app: python-front
   type: LoadBalancer
-# ---
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#   name: node-front
-# spec:
-#   replicas: 1
-#   selector:
-#     matchLabels:
-#       app: node-front
-#   template:
-#     metadata:
-#       labels:
-#         app: node-front
-#     spec:
-#       containers:
-#       - name: node-front
-#         image: jeremyvosstest.azurecr.io/aks/aks-node-app:1.0
-#         ports:
-#         - containerPort: 3000
-#         env:
-#         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
-#           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: node-front
-# spec:
-#   ports:
-#   - port: 81
-#     targetPort: 3000
-#   selector:
-#     app: node-front
-#   type: LoadBalancer
