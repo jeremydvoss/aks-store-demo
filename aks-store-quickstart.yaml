@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: python-front
-        image: jeremyvosstest.azurecr.io/aks/aks-node-python-java-app:1.0
+        image: jeremyvosstest.azurecr.io/aks/aks-node-python-java-app:1.1-backoff
         ports:
         - name: java-port
           containerPort: 8080
@@ -22,82 +22,82 @@ spec:
           containerPort: 8082
         - name: node-port
           containerPort: 3000
-        # volumeMounts:
-        # - name: azure-monitor-auto-instrumentation-volume-python
-        #   mountPath: "/agents/python"
-        # - name: azure-monitor-auto-instrumentation-volume-nodejs
-        #   mountPath: "/agents/nodejs"
-        # - name: azure-monitor-auto-instrumentation-volume-java
-        #   mountPath: "/agents/java"
+        volumeMounts:
+        - name: azure-monitor-auto-instrumentation-volume-python
+          mountPath: "/agents/python"
+        - name: azure-monitor-auto-instrumentation-volume-nodejs
+          mountPath: "/agents/nodejs"
+        - name: azure-monitor-auto-instrumentation-volume-java
+          mountPath: "/agents/java"
         env:
-        # - name: PYTHONPATH
-        #   value: "/agents/python"
-        # - name: NODE_OPTIONS
-        #   value: '--require /agents/nodejs/otel/aks.js'
-        # - name: _JAVA_OPTIONS
-        #   value: '-javaagent:/agents/java/applicationinsights-agent-codeless.jar'
+        - name: PYTHONPATH
+          value: "/agents/python"
+        - name: NODE_OPTIONS
+          value: '--require /agents/nodejs/otel/aks.js'
+        - name: _JAVA_OPTIONS
+          value: '-javaagent:/agents/java/applicationinsights-agent-codeless.jar'
         - name: APPLICATIONINSIGHTS_CONNECTION_STRING
           value: "InstrumentationKey=ec500fd4-d1b0-48e4-8bea-85d15385b671;IngestionEndpoint=https://centralus-2.in.applicationinsights.azure.com/;LiveEndpoint=https://centralus.livediagnostics.monitor.azure.com/;ApplicationId=4592960f-3e47-45b7-bae3-7c9e9d788943"
-      # initContainers:
-      # - name: python-agent
-      #   image: mcr.microsoft.com/applicationinsights/auto-instrumentation/python:1.0.0b15
-      #   command:
-      #   - cp
-      #   - -r
-      #   - /agents/python/.
-      #   - /azure-monitor-auto-instrumentation-python/
-      #   resources:
-      #     limits:
-      #       cpu: '2'
-      #       memory: 1Gi
-      #     requests:
-      #       cpu: 100m
-      #       memory: 128Mi
-      #   volumeMounts:
-      #   - name: azure-monitor-auto-instrumentation-volume-python
-      #     mountPath: /azure-monitor-auto-instrumentation-python
-      # - name: node-agent
-      #   image: mcr.microsoft.com/applicationinsights/auto-instrumentation/nodejs:2.11.4
-      #   # image: mcr.microsoft.com/applicationinsights/opentelemetry-auto-instrumentation/nodejs:3.2.3
-      #   command:
-      #   - cp
-      #   - -r
-      #   - /agents/nodejs/.
-      #   - /azure-monitor-auto-instrumentation-nodejs
-      #   resources:
-      #     limits:
-      #       cpu: '2'
-      #       memory: 1Gi
-      #     requests:
-      #       cpu: 100m
-      #       memory: 128Mi
-      #   volumeMounts:
-      #   - name: azure-monitor-auto-instrumentation-volume-nodejs
-      #     mountPath: /azure-monitor-auto-instrumentation-nodejs
-      # - name: java-agent
-      #   image: mcr.microsoft.com/applicationinsights/auto-instrumentation/java:3.5.2-aks
-      #   command:
-      #   - cp
-      #   - -r
-      #   - /agents/java/.
-      #   - /azure-monitor-auto-instrumentation-java
-      #   resources:
-      #     limits:
-      #       cpu: '2'
-      #       memory: 1Gi
-      #     requests:
-      #       cpu: 100m
-      #       memory: 128Mi
-      #   volumeMounts:
-      #   - name: azure-monitor-auto-instrumentation-volume-java
-      #     mountPath: /azure-monitor-auto-instrumentation-java
-      # volumes:
-      #   - name: azure-monitor-auto-instrumentation-volume-python
-      #     emptyDir: {}
-      #   - name: azure-monitor-auto-instrumentation-volume-nodejs
-      #     emptyDir: {}
-      #   - name: azure-monitor-auto-instrumentation-volume-java
-      #     emptyDir: {}
+      initContainers:
+      - name: python-agent
+        image: mcr.microsoft.com/applicationinsights/auto-instrumentation/python:1.0.0b15
+        command:
+        - cp
+        - -r
+        - /agents/python/.
+        - /azure-monitor-auto-instrumentation-python/
+        resources:
+          limits:
+            cpu: '2'
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - name: azure-monitor-auto-instrumentation-volume-python
+          mountPath: /azure-monitor-auto-instrumentation-python
+      - name: node-agent
+        image: mcr.microsoft.com/applicationinsights/auto-instrumentation/nodejs:2.11.4
+        # image: mcr.microsoft.com/applicationinsights/opentelemetry-auto-instrumentation/nodejs:3.2.3
+        command:
+        - cp
+        - -r
+        - /agents/nodejs/.
+        - /azure-monitor-auto-instrumentation-nodejs
+        resources:
+          limits:
+            cpu: '2'
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - name: azure-monitor-auto-instrumentation-volume-nodejs
+          mountPath: /azure-monitor-auto-instrumentation-nodejs
+      - name: java-agent
+        image: mcr.microsoft.com/applicationinsights/auto-instrumentation/java:3.5.2-aks
+        command:
+        - cp
+        - -r
+        - /agents/java/.
+        - /azure-monitor-auto-instrumentation-java
+        resources:
+          limits:
+            cpu: '2'
+            memory: 1Gi
+          requests:
+            cpu: 100m
+            memory: 128Mi
+        volumeMounts:
+        - name: azure-monitor-auto-instrumentation-volume-java
+          mountPath: /azure-monitor-auto-instrumentation-java
+      volumes:
+        - name: azure-monitor-auto-instrumentation-volume-python
+          emptyDir: {}
+        - name: azure-monitor-auto-instrumentation-volume-nodejs
+          emptyDir: {}
+        - name: azure-monitor-auto-instrumentation-volume-java
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
