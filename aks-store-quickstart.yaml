@@ -16,6 +16,7 @@ spec:
       - name: python-front
         # image: jeremyvosstest.azurecr.io/aks/aks-node-python-java-app:1.0
         image: jeremyvosstest.azurecr.io/custom_container/django:0.3-py312
+        # image: jeremyvosstest.azurecr.io/custom_container/django:0.4-manual
         ports:
         - name: java-port
           containerPort: 8080
