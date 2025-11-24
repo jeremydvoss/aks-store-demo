@@ -10,13 +10,13 @@ kubectl port-forward python-front-85bd787987-66mwn 82:82
 
 minikube 0r kubectl  service (service name) --url
 
-kubectl port-forward python-front-8449655db4-9sjml 8082:8082
+kubectl port-forward python-front-88d6dd94-qzn5k 8082:8082
 
 http://127.0.0.1:8082/
 
 
 # Deploying to AKS
-az aks get-credentials --resource-group jeremyvoss --name myAKSCluster
+az aks get-credentials --resource-group jeremyvoss --name jeremyvoss-test-aks
 kubectl apply -f aks-store-quickstart.yaml
 
 kubectl get pods -l app=python-front
